@@ -1,0 +1,215 @@
+﻿@using Markato.Models;
+@model ProjectsInfo
+@{
+    var projects = Model.projects;
+    var Teams = Model.Teams;
+    var pnum = 0;
+    var x = 0;
+
+}
+@foreach (var p in projects)
+{
+    if (p.projectMDID != null && p.projectStatues == "inprogress" )
+    {
+        <div class="card col-lg-6 product-card" id="@p.projectID">
+            <!--each projects' id MUST  be added here.And everything here will be retrieved from db dynamiclly-->
+            <img class="card-img-top product-img" src="@p.ProjectPic" alt="Card image cap">
+            <p class="card-text" style="margin-bottom:0px;"><small class="text-muted Date">@p.uploadDate</small></p>
+            <p class="card-text" style="margin-bottom:0px;"><small class="text-muted CustmerName">@p.Customer.CustomerFName</small></p>
+            <div class="card-body">
+                <h3 class="card-title Product-name">@p.projectName</h3>
+                <p class="card-text Product-desc">@p.projectDesc</p>
+                <div class="row TeamMD" id="@p.Employee.EmployeeID">
+                    
+                    <div class=" row cardRow col-12 dorpMD">
+                        <button class="btn btn-primary btn-md  col-6 MDname" type="button">@p.Employee.EmployeeFName.ToString()</button>
+                    </div>
+                </div>
+                <div class="row TeamML" id="@p.projectID">
+                    @if (p.Teams.FirstOrDefault() == null)
+                    {
+                        x = 0;
+                        foreach (var r in p.Requests.ToList())
+                        {
+                            if (r.sr == 0 && r.projectID == p.projectID && r.Employee.JID == 3)
+                            {
+                                <div class="form-group row col-12">
+                                    <div class="col-sm-7">
+                                        <input type="email" class="form-control memberMail" value="@r.Employee.EmployeeEmail" disabled>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <button type="submit" class="btn btn-outline-success SendRequest" disabled id="@ViewData["pid"]">Request Sent</button>
+                                    </div>
+                                </div>
+                                x = 1;
+                                break;
+
+                            }
+
+                        }
+                        
+                        if (x == 0)
+                        {
+                            ViewData["pid"] = p.projectID;
+                            Html.RenderPartial("AddTL");
+                        }
+
+                    }
+                    else
+                    {
+
+
+                        <div class="dropdown row cardRow col-12 dorpML" id="@p.projectID">
+                            <!--MTL id-->
+                            @if (p.Teams.FirstOrDefault() != null)
+                            {
+                                if (p.Teams.FirstOrDefault().Employee != null)
+                                {
+                            <button class="btn btn-primary btn-md dropdown-toggle col-6 MLname" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                
+                                     @p.Teams.FirstOrDefault().Employee.EmployeeFName
+                            </button>
+
+                                }
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton col-6">
+                                <button type="submit" class="btn btn-outline-danger col-lg-12 RemoveML" id="@p.projectID">Remove</button><!--MTL id-->
+                                <form method="post" action="/MainDirectors/EmployeeProfile">
+                                    <input type="number" value="@p.Teams.FirstOrDefault().Employee.EmployeeID" name="EmpID" style="display:none" />
+                                    <button class="btn btn-outline-primary btn-md col-lg-12 profile MLname" type="submit" aria-haspopup="true" aria-expanded="false">
+                                        profile
+                                    </button>
+                                </form>
+                            </div>
+                            }
+                        </div>
+                    }
+
+
+
+                </div>
+                <div class="row MT">
+                    
+                        <div class="form-group row AddMemberRow MainF col-12" style="display:none">
+
+                            <div class="col-sm-7">
+                                <input type="email" class="form-control memberMail" placeholder="Member E-Mail">
+                            </div>
+                            <div class="col-sm-5">
+                                <button type="submit" class="btn btn-outline-success SendRequest" id="@p.projectID">Send Request</button>
+                            </div>
+
+                        </div>
+                        @if (p.Teams.FirstOrDefault() != null)
+                        {
+                            if (p.Teams.FirstOrDefault().ProjectTeamHistories.ToList().Count() > 0 )
+                            {
+
+                                <div class="col-sm-12 FeedbackBlock" style="display:none">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div style="margin-bottom:4px;">
+                                                <input type="text" class="fb form-control" placeholder="No Feedback" disabled rows="1" />
+                                            </div>
+                                            <div class="input-group" style="margin-bottom:4px;">
+                                                <input type="number" class="r form-control" id="validationDefaultUsername" placeholder="Rate" disabled>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend2">/10</span>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-outline-secondary CloseFb col-sm-4  btn-sm">Close</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row col-12  cardRow TeamMembers" id="@p.Teams.FirstOrDefault().TeamID">
+
+                                    <!--this represents members in that project-->
+                                    @foreach (var t in p.Teams.FirstOrDefault().ProjectTeamHistories.ToList())
+                                    {
+
+                                        <div class="col-sm-3 MTdd" id="@t.Employee.EmployeeID">
+                                            <button class="btn btn-info btn-sm dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                @t.Employee.EmployeeFName   
+                                            </button>
+                                            <form method="post" action="/MainDirectors/EmployeeProfile">
+                                                <input type="number" value="@t.Employee.EmployeeID" name="EmpID" style="display:none" />
+
+                                                <div class="HiddenData" style="display:none;">
+                                                    @if (t.Employee.FeedBacks.Where(u => u.ProjectID == p.projectID).FirstOrDefault() != null)
+                                                    {
+                                                        <p class="hr">@t.Employee.FeedBacks.ToList().First(u => u.ProjectID == p.projectID).Rate</p>
+                                                        <p class="hfb">@t.Employee.FeedBacks.ToList().First(u => u.ProjectID == p.projectID).FeedBack1</p>
+                                                    }
+                                                </div>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <button type="submit" class="btn btn-outline-primary col-lg-12 profile" id="@t.Employee.EmployeeID">
+                                                        profile
+                                                    </button>
+                                                    <!--MT profile-->
+                                                    <button type="button" class="btn btn-outline-success col-lg-12 ShowFeedback" id="@t.Employee.EmployeeID">Feedback</button><!--MTL id-->
+                                                    <button type="submit" class="btn btn-outline-danger col-lg-12 RemoveMT" id="@t.Employee.EmployeeID">Remove</button><!--MTL id-->
+                                                    @if (t.Req == 0)
+                                                    {
+                                                        <div class="row col-10">
+                                                            <button type="button" class="btn btn-outline-secondary col-lg-6 RemoveMT" id="@t.Employee.EmployeeID">Yes</button><!--MTL id-->
+                                                            <button type="button" class="btn btn-outline-secondary col-lg-6 RejLeaveReq" id="@t.Employee.EmployeeID">No</button><!--MTL id-->
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </form>
+                                        </div>
+                                    }
+
+                                </div>
+                            }
+                        }
+                        <div class="AddMemberDiv row col-12" id="@p.projectID"></div>
+                        <div class="row cardRow col-12">
+                            <button type="button" class="btn btn-outline-secondary NewMember btn-sm col-sm-4" id="@p.projectID">Add New MT</button>
+                        </div>
+
+                    </div>
+                <div class="row col-lg-12 SchedualDiv">
+                    <form method="Post"  class="SchedualForm" style="margin-top:10px;">
+                        <div class="form-group row">
+                            <div class="row col-sm-9">
+                                <label for="staticEmail" class="col-sm-3 col-form-label">Start</label>
+                                <input type="text" class="form-control StartDate col-sm-9" value="@p.ProjectStart" disabled>
+
+                                <label for="staticEmail" class="col-sm-3 col-form-label">End</label>
+                                <input type="date" class="form-control EndDate col-sm-9"  value="@p.ProjectEnd">
+                            </div>
+                            <div class=" row col-sm-3">
+                                <button type="submit" class="btn btn-outline-success SetSchedual" id="@p.projectID">Set Schedual</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row Pprice col-lg-12">
+                   <div class="PriceForm col-12" style="margin-top:10px;">
+                        <div class="form-group row">
+                            <div class="row col-sm-9">
+                                <label class="col-sm-4 col-form-label">Price</label>
+                                <input type="number" class="form-control price col-sm-8" value="@p.projectPrice">
+                            </div>
+                            <div class="row col-sm-3">
+                                <button class="btn btn-outline-primary Pbutton" id="@p.projectID">Set Price</button>
+                            </div>
+                        </div>
+                   </div>
+                  
+                </div> 
+                <div class="row col-lg-12 ">
+                    <button type="button" class="btn btn-outline-danger    btn-sm leaveProject" id="@p.projectID"><i class="fas fa-times" style="margin-right:5px"></i>Remove Project</button>
+                    <button type="button" class="btn btn-outline-secondary    btn-sm CloseProject" id="@p.projectID"><i class="fas fa-times" style="margin-right:5px"></i>Close Project</button>
+                </div>
+            </div>
+        </div>
+        pnum++;
+    }
+}
+

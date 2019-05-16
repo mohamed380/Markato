@@ -1,0 +1,91 @@
+﻿@model List<Project>
+@{
+    ViewBag.Title = "HomePageLayout";
+    Layout = "~/Views/HomePage/HomePageLayout.cshtml";
+}
+@using Markato.Models
+@{
+
+    Boolean emp = true;
+    String md = "disabled";
+    var CurrentEmp = new Employee();
+    var CurrentCustomer = new Customer();
+    if (Session["JID"] != null)
+    {
+        if (((int)Session["JID"] == 2))
+        {
+            CurrentEmp = (Employee)Session["emp"];
+            md = "";
+
+        }
+    }
+    else
+    {
+        emp = false;
+        CurrentCustomer = (Customer)Session["Customer"];
+    }
+}
+
+
+@{ if (!emp && CurrentCustomer != null)
+    {
+        Html.RenderPartial("ProjectForm", CurrentCustomer.CustomerID);
+    }
+    }
+
+
+
+<h3 style="text-align:center" id="PendingProject">Pending Projects</h3>
+<br />
+<div class="card-colum col-12">
+    @{ 
+        foreach (var p in Model)
+        {
+
+
+    <div class="card col-sm-4 product-card" id="@p.projectID">
+        <img class="card-img-top" src="@p.ProjectPic" alt="Card image cap">
+        <p class="card-text" style="margin-bottom:0px;"><small class="text-muted CustmerName">@p.Customer.CustomerFName</small></p>
+
+        <div class="card-body">
+            <h5 class="card-title">@p.projectName</h5>
+            <p class="card-text projectDesc">@p.projectDesc</p>
+            <div class="row justify-content-md-center">
+                @{//here we should check who is visiting this page and then appearing this button only to MD.
+                    if (md != "disabled")
+                    {
+                        foreach (var x in p.Requests.ToList())
+                        {
+                            if (x.employeeID == CurrentEmp.EmployeeID)
+                            {
+                                md = "sent";
+                                <button type="submit" class="btn btn-primary col-sm-5 " disabled>Request Sent</button>
+                                break;
+                            }
+                        }
+                        if (md == "")
+                        {
+                            <button type="submit" class="btn btn-primary col-sm-5 MDSendRequest @md" id="@CurrentEmp.EmployeeID">Submit</button>
+                        }
+
+                    }
+                    md = "";
+                }
+                <!--
+            <button type="submit" class="btn btn-primary col-sm-4 EditProject">Edit</button>
+            <div class="col-sm-1"></div>
+            <button type="button" class="btn btn-danger col-sm-4">Delete</button>
+             -->
+            </div>
+            <p class="card-text"><small class="text-muted">@p.uploadDate</small></p>
+
+        </div>
+    </div>
+                    }
+                    }
+</div>
+
+
+
+
+

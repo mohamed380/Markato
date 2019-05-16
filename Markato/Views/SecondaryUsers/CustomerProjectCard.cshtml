@@ -1,0 +1,107 @@
+﻿@using Markato.Models;
+@model ProjectsInfo
+@{
+    var projects = Model.projects;
+    var Teams = Model.Teams;
+    var pnum = 0;
+    var CurrentCustomer = (Customer)Session["Customer"];
+    var x = "";
+}
+@if (projects != null)
+{
+
+
+
+
+foreach (var p in projects)
+{
+    if (p.projectMDID != null && p.projectStatues == "inprogress")
+    {
+        <div class="card col-lg-6 product-card" id="@p.projectID">
+            <!--each projects' id MUST  be added here.And everything here will be retrieved from db dynamiclly-->
+            <img class="card-img-top product-img" src="@p.ProjectPic" alt="Card image cap">
+            <p class="card-text" style="margin-bottom:0px;"><small class="text-muted Date">@p.uploadDate</small></p>
+            <p class="card-text" style="margin-bottom:0px;"><small class="text-muted CustmerName">@p.Customer.CustomerFName</small></p>
+            <div class="card-body">
+                <h3 class="card-title Product-name">@p.projectName</h3>
+                <p class="card-text Product-desc">@p.projectDesc</p>
+                <div class="row TeamMD" id="@p.Employee.EmployeeID">
+
+                    <div class="dropdown row cardRow col-12 dorpMD">
+                        <form method="post" action="/MainDirectors/EmployeeProfile">
+                            <input type="number" value="@p.Employee.EmployeeID" name="EmpID" style="display:none" />
+                            <button class="btn btn-primary btn-md  col-6 profile MDname" type="submit">@p.Employee.EmployeeFName.ToString()</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row TeamML" id="@p.projectID">
+                    @if (p.Teams.ToList().Count() != 0)
+                    {
+                    <div class="dropdown row cardRow col-12 dorpML" id="@p.projectID">
+                        <!--MTL id-->
+                        <form method="post" action="/MainDirectors/EmployeeProfile">
+                            <input type="number" value="@p.Teams.FirstOrDefault().Employee.EmployeeID" name="EmpID" style="display:none" />
+                            <button class="btn btn-primary btn-md col-6 profile MLname" type="submit" aria-haspopup="true" aria-expanded="false">
+                                @p.Teams.FirstOrDefault().Employee.EmployeeFName
+                            </button>
+                        </form>
+                    </div>
+                    }
+
+
+
+                </div>
+                <div class="row MT">
+
+                    
+                    @if (p.Teams.FirstOrDefault() != null)
+                    {
+                        if (p.Teams.FirstOrDefault().ProjectTeamHistories.ToList().Count() > 0)
+                        {
+
+
+
+                            <div class="row col-12  cardRow TeamMembers" id="@p.Teams.FirstOrDefault().TeamID">
+
+                                <!--this represents members in that project-->
+                                @foreach (var t in p.Teams.FirstOrDefault().ProjectTeamHistories.ToList())
+                                {
+
+                                <div class=" MTdd" id="">
+                                    <form method="post" class="col-12" action="/MainDirectors/EmployeeProfile">
+                                        <input type="number" value="@t.Employee.EmployeeID" name="EmpID" style="display:none" />
+                                        <button class="btn btn-info btn-sm profile col-12" type="submit" aria-haspopup="true" aria-expanded="false">
+                                            @t.Employee.EmployeeFName
+                                        </button>
+                                     </form>
+                                </div>
+                                }
+
+                            </div>
+                        }
+                    }
+
+                </div>
+                <div class="row col-lg-12 SchedualDiv">
+                    <form method="Post" class="SchedualForm" style="margin-top:10px;">
+                        <div class="form-group row">
+                            <div class="row col-sm-12">
+                                <label for="staticEmail" class="col-sm-4 col-form-label">Start</label>
+                                <input type="date" class="form-control StartDate col-sm-8" value="@p.ProjectStart" disabled>
+
+                                <label for="staticEmail" class="col-sm-4 col-form-label">End</label>
+                                <input type="date" class="form-control EndDate col-sm-8" value="@p.ProjectEnd" disabled>
+                            </div>
+                         
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="row col-lg-12 ">
+                    <button type="button" class="btn btn-outline-danger    btn-sm disabled" id="@p.projectID"><i class="fas fa-times" style="margin-right:5px"></i>Remove Project</button>
+                </div>
+            </div>
+        </div>
+        pnum++;
+    }
+}}

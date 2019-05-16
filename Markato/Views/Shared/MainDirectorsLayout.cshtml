@@ -1,0 +1,196 @@
+﻿@{
+    var ce = (Markato.Models.Employee)Session["emp"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    @using System.Web.Optimization;
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @using Markato.Models;
+   
+
+    @{
+        var CurrentEmp = (Employee)Session["emp"];
+
+    }
+</head>
+<body>
+    <!-- Left Panel -->
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+            <div class="navbar-header">
+               
+                <a class="navbar-brand" href="/"><h3><b>MARKATO</b></h3></a>
+
+            </div>
+            <div id="main-menu" class="main-menu">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="index.html"> <i class="menu-icon fas fa-1x fa-tachometer-alt"></i>Dashboard </a>
+                    </li>
+                    <h3 class="menu-title">Control Panel</h3><!-- /.menu-title -->
+                    <li class="">
+                        <a href="/MainDirectors/MainDirectorsPage/#About" class="" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon far fa-address-card"></i>About</a>
+
+                        <a href="/MainDirectors/MainDirectorsPage/#Current" class="" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon far fa-edit"></i>Current Projects</a>
+                        <a href="/MainDirectors/MainDirectorsPage/#history" class="" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-history"></i>Previous Project (History)</a>
+
+                            <a href="/Employees/Index" class="" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-reply-all"></i>Manage Employees</a>
+                            <a href="/Customers/Index" class="" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-reply-all"></i>Manage Customer</a>
+
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside><!-- /#left-panel --><!-- /.navbar-collapse -->
+    <!-- Left Panel -->
+    <!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+        <!-- Header-->
+        <header id="header" class="header">
+            <div class="header-menu">
+                <div class="col-sm-7 left-7">
+                    <div class="header-left">
+                        <button class="search-trigger left-7"><i class="fas fa-search"></i></button>
+                        <div class="form-inline left-7">
+                            <form class="search-form">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+                                <button class="search-close" type="submit"><i class="fas fa-close"></i></button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-5">
+
+                    <div class="user-area dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="@ce.EmployeePhoto" alt="User Avatar">
+                        </a>
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="/MainDirectors/MainDirectorsPage"><i class="far fa-user"></i> My Profile</a>
+                            <a class="nav-link logout" href="/Markato/Index"><i class="fas fa-power-off"></i> Logout</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </header><!-- /header -->
+        <!-- Header-->
+
+        <div class="content mt-3">
+            @RenderBody()
+        </div>
+        <!-- .content -->
+    </div><!-- /#right-panel -->
+    <!-- Right Panel -->
+
+
+    @Scripts.Render("~/Scripts/mjs")
+    <script>
+        (function ($) {
+            "use strict";
+
+            jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                backgroundColor: null,
+                color: '#ffffff',
+                hoverOpacity: 0.7,
+                selectedColor: '#1de9b6',
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: ['#1de9b6', '#03a9f5'],
+                normalizeFunction: 'polynomial'
+            });
+        })(jQuery);</script>
+    <script>
+        var MONTHS = ['x', 'y', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        var randomScalingFactor = function () {
+            return Math.round(Math.random() * 10);
+        };
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: ['x', 'y', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Number of Projects',
+                    backgroundColor: window.chartColors.red,
+                    borderColor: window.chartColors.red,
+                    data: [
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor()
+                    ],
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Your progress'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        },
+                        ticks: {
+                            min: 0,
+                            max: 10,
+
+                            // forces step size to be 5 units
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
+        };
+
+        window.onload = function () {
+            var ctx = document.getElementById('canvas').getContext('2d');
+            window.myLine = new Chart(ctx, config);
+        };
+
+
+
+
+
+
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

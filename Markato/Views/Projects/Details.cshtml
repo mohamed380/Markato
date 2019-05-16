@@ -1,0 +1,83 @@
+﻿@model Markato.Models.Project
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.projectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectEnd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectStatues)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectStatues)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.CustomerFName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CustomerFName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.EmployeeFName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.EmployeeFName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.projectID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

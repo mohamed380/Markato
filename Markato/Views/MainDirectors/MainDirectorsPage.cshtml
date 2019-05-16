@@ -1,0 +1,248 @@
+﻿@using Markato.Models;
+@model ProjectsInfo
+@{
+    ViewBag.Title = "MasterLayout";
+    Layout = "~/Views/MainDirectors/MainDirectorsLayout.cshtml";
+    var CurrentEmp = (Employee)Session["emp"];
+    var projects = Model.projects;
+    var Teams = Model.Teams;
+    var pnum = 0;
+    var cls = "";
+    if (((int)ViewData["MainID"] == 2))
+    {
+        cls = "MDAcceptProject";
+    }
+    else if (((int)ViewData["MainID"] == 3))
+    {
+        cls = "LAcceptProject";
+    }
+    else if (((int)ViewData["MainID"] == 4))
+    {
+        cls = "TAccProject";
+    }
+
+
+}
+<div class="jumbotron jumbotron-fluid" id="About">
+    <div class="container">
+        
+            <img src=@CurrentEmp.EmployeePhoto class="pp class=" col-sm-4"" />
+        
+        <h1 class="display-4" style="color:white">@CurrentEmp.EmployeeFName @CurrentEmp.EmployeeLName</h1>
+        <p class="">@CurrentEmp.EmployeeBio</p>
+    </div>
+</div>
+@if (!((int)ViewData["MainID"] == 1))
+{
+    <div class="container" id="SD">
+        <h3 style="text-align:center">Statistical Diagram</h3>
+        <hr class="col-sm-6" />
+        <div class="stat col-lg-12">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
+}
+@if (!((int)ViewData["MainID"] == 1))
+{
+    <div class="container" id="PR">
+        <h3 style="text-align:center">Project Requests</h3>
+        <hr class="col-sm-6" />
+
+        <div class="card-colum col-12 ProjectRequests">
+            @foreach (var pr in Model.Rprojects)
+            {
+
+                <div class="card col-sm-4 product-card pr" id="@pr.projectID">
+                    <img class="card-img-top product-img" src="@pr.ProjectPic" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title Product-name">@pr.projectName</h5>
+                        <p class="card-text Product-desc">@pr.projectDesc</p>
+                        <div class="row justify-content-md-center" id="">
+                            <button type="submit" class="btn btn-primary col-sm-4  @cls" id="@CurrentEmp.EmployeeID">Accept</button><!--product id required to be set when product retrieved from db-->
+                            <button type="button" class="btn btn-danger col-sm-4  RejectProject" id="@CurrentEmp.EmployeeID">Reject</button>
+                        </div>
+                        <p class="card-text Custmer-name" style="margin-bottom:0"><small class="text-muted">@pr.Customer.CustomerFName</small></p>
+
+                        <p class="card-text Product-date"><small class="text-muted"></small></p>
+
+                        <p class="card-text Product-date"><small class="text-muted">@pr.ProjectStart</small></p>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+}
+@if ((int)ViewData["MainID"] == 1)
+{
+    <h3 style="text-align:center" id="PendingProject">Pending Projects</h3>
+    <br />
+    <div class="card-colum col-12">
+        @{
+            foreach (var p in projects)
+            {
+                if (p.projectStatues == "pending")
+                {
+
+                <div class="card col-sm-4 product-card" id="@p.projectID">
+                    <img class="card-img-top" src="@p.ProjectPic" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@p.projectName</h5>
+                        <p class="card-text projectDesc">@p.projectDesc</p>
+                        <div class="row justify-content-md-center">
+                            <div class="cardRow col-lg-12" style="margin-bottom:5px">
+                                @foreach (var md in p.Requests.ToList())
+                                {
+                                    if (md.sr == 1)
+                                    {
+                                        <div class="col-sm-4 " id="@md.Employee.EmployeeID" style="margin-right:2px;">
+                                            <button class="btn btn-info btn-sm" type="button" id="" aria-haspopup="true" aria-expanded="false">
+                                                @md.Employee.EmployeeFName
+                                            </button>
+
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        
+                        <p class="card-text"><small class="text-muted">@p.uploadDate</small></p>
+
+                    </div>
+                </div>
+                    }
+                }
+            }
+    </div>
+}
+<div id="Current" class="container">
+    <h3 style="text-align:center">Assigned Project</h3>
+    <hr class="col-sm-6" />
+    <div class="">
+        <div class="row  AssignedProjects">
+            @if ((int)ViewData["MainID"] == 1)
+            {
+                Html.RenderPartial("AdminProjectCard", Model);
+            }
+            @if ((int)ViewData["MainID"] == 3)
+            {
+
+                Html.RenderPartial("LeaderProjectsCard", Model);
+            }
+            @if ((int)ViewData["MainID"] == 2)
+            {
+                Html.RenderPartial("MDProjectCard", Model);
+            }
+            @if ((int)ViewData["MainID"] == 4)
+            {
+                Html.RenderPartial("MTProjectCard", Model);
+            }
+
+            <!--this card which we'll use as a template to copy any accepted project to it.-->
+            <div class="card col-sm-6 ProductCardTemplate" id="" style="display:none">
+                <img class="card-img-top product-img" src="" alt="Card image cap">
+                <p class="card-text "><small class="text-muted Date">Last updated 3 mins ago</small></p>
+                <p class="card-text "><small class="text-muted CustmerName">CustomerUsername</small></p>
+                <div class="card-body">
+                    <h5 class="card-title Product-name"></h5>
+                    <p class="card-text Product-desc"></p>
+                    <div class="row TeamLeader">
+                        @{Html.RenderPartial("AddTL");}
+                    </div>
+                    <div class="row MT">
+                        @{Html.RenderPartial("AddMT");}
+                        <div class="row col-sm-12">
+                            <button type="button" class="btn btn-outline-secondary NewMember btn-sm col-3" id="">Add New MT</button>
+                        </div>
+                    </div>
+                    <div class="row col-lg-12 SchedualDiv">
+                        <form method="Post" class="SchedualForm" style="margin-top:10px;">
+                            <!--here u only have to check if the schedual set or no to fill data or allow to add new dates-->
+                            <!--id of project MUST be set here in id property-->
+                            <div class="form-group row">
+                                <div class="row col-sm-9">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Start</label>
+                                    <input type="date" class="form-control StartDate col-sm-9">
+
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">End</label>
+                                    <input type="date" class="form-control EndDate col-sm-9" id="" placeholder="">
+                                </div>
+                                <div class="col-sm-3 row col-sm-3">
+                                    <button type="button" class="btn btn-outline-success SetSchedual" id="">Set Schedual</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" id="history">
+    <h3 style="text-align:center">History</h3>
+    <hr class="col-sm-6" />
+    <div class="row">
+        <div class="card-colum Histories">
+            @foreach (var p in projects)
+            {
+                if (p.projectStatues == "end")
+                {
+                    <div class="card col-sm-6 product-card HistoryCardTemblate" id="@p.projectID">
+                        <!--each projects' id MUST  be added here.And everything here will be retrieved from db dynamiclly-->
+                        <img class="card-img-top product-img" src="@p.ProjectPic" alt="Card image cap">
+                        <p class="card-text" style="margin-bottom:0px;"><small class="text-muted Date">@p.ProjectStart</small></p>
+                        <p class="card-text" style="margin-bottom:0px;"><small class="text-muted CustmerName">@p.Customer.CustomerFName</small></p>
+                        <div class="card-body">
+                            <h3 class="card-title Product-name">@p.projectName</h3>
+                            <p class="card-text Product-desc">@p.projectDesc</p>
+                            <div class="row cardRow MD col-12">
+                                <!--MTL id-->
+                                <form method="post" action="/MainDirectors/EmployeeProfile">
+                                    <input type="number" value="@p.Employee.EmployeeID" name="EmpID" style="display:none" />
+                                    <button class="btn btn-secondary btn-md profile  MDname" type="submit">@p.Employee.EmployeeFName</button>
+                                </form>
+                            </div>
+                            @if (p.Teams.FirstOrDefault() != null)
+                            {
+                                <div class="row cardRow ML col-12">
+                                    <form method="post" action="/MainDirectors/EmployeeProfile">
+                                        <input type="number" value="@p.Teams.FirstOrDefault().Employee.EmployeeID" name="EmpID" style="display:none" />
+
+                                        <button class="btn btn-secondary btn-md profile  MLname" type="submit" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@p.Teams.FirstOrDefault().Employee.EmployeeFName</button>
+                                    </form>
+                                </div>
+                            }
+                                <div class="row col-lg-12 cardRow TeamMembers">
+                                    <!--this represents members in that project-->
+                                    @if (p.Teams.FirstOrDefault() != null)
+                                    {
+                                        foreach (var t in p.Teams.FirstOrDefault().ProjectTeamHistories.ToList())
+                                        {
+                                            <form method="post" action="/MainDirectors/EmployeeProfile">
+                                                <input type="number" value="@t.Employee.EmployeeID" name="EmpID" style="display:none" />
+                                                <button class="btn btn-secondary btn-sm col-sm-12 profile" type="submit">@t.Employee.EmployeeFName</button>
+                                            </form>
+                                        }
+                                    }
+                                </div>
+                                <div class="row col-lg-12 SchedualDiv">
+                                    <form method="Post" class="SchedualForm" style="margin-top:10px;">
+                                        <div class="form-group row">
+                                            <div class="row col-sm-12">
+                                                <label for="staticEmail" class="col-sm-3 col-form-label">Start</label>
+                                                <input type="text" class="form-control StartDate col-sm-9" disabled value="@p.ProjectStart">
+                                                <label for="staticEmail" class="col-sm-3 col-form-label">End</label>
+                                                <input type="text" class="form-control EndDate col-sm-9" id="" placeholder="" disabled value="@p.ProjectEnd">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                    </div>
+                }
+                pnum++;
+            }
+        </div>
+    </div>
+</div>

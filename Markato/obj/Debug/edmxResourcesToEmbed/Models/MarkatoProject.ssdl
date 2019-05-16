@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MarkatoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="int" Nullable="false" />
+    <Property Name="CustomerFName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CustomerLName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CustomerEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CustomerPhone" Type="bigint" Nullable="false" />
+    <Property Name="CustomerPhoto" Type="nvarchar" MaxLength="50" />
+    <Property Name="pass" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="ban" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="EmployeeID" />
+    </Key>
+    <Property Name="EmployeeID" Type="int" Nullable="false" />
+    <Property Name="EmployeeManagerID" Type="int" />
+    <Property Name="EmployeeFName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmployeeLName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmployeeMobile" Type="bigint" Nullable="false" />
+    <Property Name="EmployeeEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmployeePhoto" Type="nvarchar" MaxLength="50" />
+    <Property Name="pass" Type="nvarchar" MaxLength="15" />
+    <Property Name="EmployeeBio" Type="nvarchar" MaxLength="2000" />
+    <Property Name="ban" Type="int" Nullable="false" />
+    <Property Name="JID" Type="int" />
+  </EntityType>
+  <EntityType Name="FeedBack">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="MTID" Type="int" />
+    <Property Name="Rate" Type="int" Nullable="false" />
+    <Property Name="FeedBack" Type="nvarchar" MaxLength="300" />
+    <Property Name="ProjectID" Type="int" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JTitle">
+    <Key>
+      <PropertyRef Name="typeID" />
+    </Key>
+    <Property Name="typeID" Type="int" Nullable="false" />
+    <Property Name="type" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Projects">
+    <Key>
+      <PropertyRef Name="projectID" />
+    </Key>
+    <Property Name="projectID" Type="int" Nullable="false" />
+    <Property Name="projectName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="projectDesc" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="projectOwnerID" Type="int" />
+    <Property Name="projectMDID" Type="int" />
+    <Property Name="projectPrice" Type="int" />
+    <Property Name="projectStatues" Type="nvarchar" MaxLength="20" />
+    <Property Name="ProjectPic" Type="nvarchar" MaxLength="100" />
+    <Property Name="ProjectStart" Type="nchar" MaxLength="10" />
+    <Property Name="ProjectEnd" Type="nchar" MaxLength="10" />
+    <Property Name="uploadDate" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="ProjectTeamHistory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TeamID" Type="int" Nullable="false" />
+    <Property Name="MemberID" Type="int" />
+    <Property Name="Req" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Requests">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="projectID" Type="int" Nullable="false" />
+    <Property Name="employeeID" Type="int" Nullable="false" />
+    <Property Name="sr" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Teams">
+    <Key>
+      <PropertyRef Name="TeamID" />
+    </Key>
+    <Property Name="TeamID" Type="int" Nullable="false" />
+    <Property Name="TeamMDID" Type="int" Nullable="false" />
+    <Property Name="TeamLeaderID" Type="int" />
+    <Property Name="ProjectID" Type="int" />
+  </EntityType>
+  <Association Name="FK__Employees__Emplo__398D8EEE">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="Employees1" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="Employees1">
+        <PropertyRef Name="EmployeeManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Employees__JID__2739D489">
+    <End Role="JTitle" Type="Self.JTitle" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JTitle">
+        <PropertyRef Name="typeID" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="JID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FeedBack__MTID__2A164134">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="FeedBack" Type="Self.FeedBack" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="FeedBack">
+        <PropertyRef Name="MTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FeedBack__Projec__2CF2ADDF">
+    <End Role="Projects" Type="Self.Projects" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="FeedBack" Type="Self.FeedBack" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projects">
+        <PropertyRef Name="projectID" />
+      </Principal>
+      <Dependent Role="FeedBack">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Requests__employ__08B54D69">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="employeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectTeamHistory_Employees">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="ProjectTeamHistory" Type="Self.ProjectTeamHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="ProjectTeamHistory">
+        <PropertyRef Name="MemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectTeamHistory_Teams">
+    <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
+    <End Role="ProjectTeamHistory" Type="Self.ProjectTeamHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teams">
+        <PropertyRef Name="TeamID" />
+      </Principal>
+      <Dependent Role="ProjectTeamHistory">
+        <PropertyRef Name="TeamID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PC">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Projects">
+        <PropertyRef Name="projectOwnerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PE">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="Projects">
+        <PropertyRef Name="projectMDID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RP">
+    <End Role="Projects" Type="Self.Projects" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projects">
+        <PropertyRef Name="projectID" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="projectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TL">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="Teams">
+        <PropertyRef Name="TeamLeaderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TM">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="Teams">
+        <PropertyRef Name="TeamLeaderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TP">
+    <End Role="Projects" Type="Self.Projects" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projects">
+        <PropertyRef Name="projectID" />
+      </Principal>
+      <Dependent Role="Teams">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MarkatoModelStoreContainer">
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeedBack" EntityType="Self.FeedBack" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JTitle" EntityType="Self.JTitle" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProjectTeamHistory" EntityType="Self.ProjectTeamHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Employees__Emplo__398D8EEE" Association="Self.FK__Employees__Emplo__398D8EEE">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Employees1" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Employees__JID__2739D489" Association="Self.FK__Employees__JID__2739D489">
+      <End Role="JTitle" EntitySet="JTitle" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FeedBack__MTID__2A164134" Association="Self.FK__FeedBack__MTID__2A164134">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="FeedBack" EntitySet="FeedBack" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FeedBack__Projec__2CF2ADDF" Association="Self.FK__FeedBack__Projec__2CF2ADDF">
+      <End Role="Projects" EntitySet="Projects" />
+      <End Role="FeedBack" EntitySet="FeedBack" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Requests__employ__08B54D69" Association="Self.FK__Requests__employ__08B54D69">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectTeamHistory_Employees" Association="Self.FK_ProjectTeamHistory_Employees">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="ProjectTeamHistory" EntitySet="ProjectTeamHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectTeamHistory_Teams" Association="Self.FK_ProjectTeamHistory_Teams">
+      <End Role="Teams" EntitySet="Teams" />
+      <End Role="ProjectTeamHistory" EntitySet="ProjectTeamHistory" />
+    </AssociationSet>
+    <AssociationSet Name="PC" Association="Self.PC">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Projects" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="PE" Association="Self.PE">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Projects" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="RP" Association="Self.RP">
+      <End Role="Projects" EntitySet="Projects" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="TL" Association="Self.TL">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Teams" EntitySet="Teams" />
+    </AssociationSet>
+    <AssociationSet Name="TM" Association="Self.TM">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Teams" EntitySet="Teams" />
+    </AssociationSet>
+    <AssociationSet Name="TP" Association="Self.TP">
+      <End Role="Projects" EntitySet="Projects" />
+      <End Role="Teams" EntitySet="Teams" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

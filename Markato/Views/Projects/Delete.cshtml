@@ -1,0 +1,89 @@
+﻿@model Markato.Models.Project
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.projectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectEnd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectStatues)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectStatues)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.CustomerFName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CustomerFName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.EmployeeFName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.EmployeeFName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

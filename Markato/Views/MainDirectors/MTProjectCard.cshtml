@@ -1,0 +1,87 @@
+﻿@using Markato.Models;
+@model ProjectsInfo
+@{
+    var projects = Model.projects;
+    var Teams = Model.Teams;
+    var pnum = 0;
+    var CurrentEmp = (Employee)Session["emp"];
+    var x = "";
+}
+@foreach (var p in projects)
+{
+
+    if (p.projectStatues == "inprogress")
+    {
+
+        <div class="card col-sm-6 product-card" id="@p.projectID">
+            <!--each projects' id MUST  be added here.And everything here will be retrieved from db dynamiclly-->
+            <img class="card-img-top product-img" src="@p.ProjectPic" alt="Card image cap">
+            <p class="card-text" style="margin-bottom:0px;"><small class="text-muted Date">Last updated 3 mins ago</small></p>
+            <p class="card-text" style="margin-bottom:0px;"><small class="text-muted CustmerName">@p.Customer.CustomerFName</small></p>
+            <div class="card-body">
+                <h3 class="card-title Product-name">@p.projectName</h3>
+                <p class="card-text Product-desc">@p.projectDesc</p>
+                <div class="row TeamMD">
+                    <div class="dropdown row cardRow col-12 dorpMD">
+                        <label class="col-sm-4 col-form-label">MD</label>
+                        <button class="btn btn-primary btn-md  col-6 MDname" type="button">@p.Employee.EmployeeFName.ToString()</button>
+                    </div>
+                </div>
+                <div class="row TeamML" id="@p.projectID">
+                    @if (Teams[pnum].Employee != null)
+                    {
+                    <div class="dropdown row cardRow col-12 dorpML" id="@p.projectID">
+                        <label class="col-sm-4 col-form-label">MTL</label>
+                        <button class="btn btn-primary btn-md  col-6 MLname" type="button">@Teams[pnum].Employee.EmployeeFName</button>
+                    </div>
+                    }
+                </div>
+                <div class="row MT">
+                    @if (Teams[pnum].ProjectTeamHistories.ToList().Count() != 0)
+                    {
+                        <div class="row col-12  cardRow TeamMembers">
+                            @foreach (var t in Teams[pnum].ProjectTeamHistories.ToList())
+                            {
+                                if(t.MemberID == CurrentEmp.EmployeeID)
+                                {
+                                    
+                                    if (t.Req == 0)
+                                    {
+                                        x = "disabled";
+                                    }
+                                }
+                                <div class="col-sm-3 MTdd" id="@t.Employee.EmployeeID">
+                                    <button class="btn btn-info btn-sm" type="button" >
+                                        @t.Employee.EmployeeFName
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    }
+                    
+                </div>
+                <div class="row col-lg-12 SchedualDiv">
+                    <form method="Post" class="SchedualForm" style="margin-top:10px;">
+                        <!--here u only have to check if the schedual set or no to fill data or allow to add new dates-->
+                        <!--id of project MUST be set here in id property-->
+                        <div class="form-group row">
+                            <div class="row col-sm-12">
+                                <label for="staticEmail" class="col-sm-5 col-form-label">Start</label>
+                                <input type="text" class="form-control  col-sm-7" value="@p.ProjectStart" disabled>
+                                <label for="staticEmail" class="col-sm-5 col-form-label">End</label>
+                                <input type="text" class="form-control  col-sm-7" id="" value="@p.ProjectEnd" disabled>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="row col-lg-12" id="@Teams[pnum].TeamID">
+                    
+                    <button @x type="button" class="btn btn-outline-danger btn-sm MTleaveProject" id="@CurrentEmp.EmployeeID"><i class="fas fa-times" style="margin-right:5px" ></i>Remove Project</button><!--id of project MUST be set here in id property-->
+                </div>
+            </div>
+        </div>
+        pnum++;
+    }
+}
+

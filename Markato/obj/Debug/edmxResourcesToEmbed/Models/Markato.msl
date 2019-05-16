@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MarkatoModelStoreContainer" CdmEntityContainer="MarkatoEntities5">
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="MarkatoModel.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CustomerFName" ColumnName="CustomerFName" />
+          <ScalarProperty Name="CustomerLName" ColumnName="CustomerLName" />
+          <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
+          <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+          <ScalarProperty Name="CustomerPhoto" ColumnName="CustomerPhoto" />
+          <ScalarProperty Name="pass" ColumnName="pass" />
+          <ScalarProperty Name="ban" ColumnName="ban" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="MarkatoModel.Employee">
+        <MappingFragment StoreEntitySet="Employees">
+          <ScalarProperty Name="JID" ColumnName="JID" />
+          <ScalarProperty Name="ban" ColumnName="ban" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="EmployeeManagerID" ColumnName="EmployeeManagerID" />
+          <ScalarProperty Name="EmployeeFName" ColumnName="EmployeeFName" />
+          <ScalarProperty Name="EmployeeLName" ColumnName="EmployeeLName" />
+          <ScalarProperty Name="EmployeeMobile" ColumnName="EmployeeMobile" />
+          <ScalarProperty Name="EmployeeEmail" ColumnName="EmployeeEmail" />
+          <ScalarProperty Name="EmployeePhoto" ColumnName="EmployeePhoto" />
+          <ScalarProperty Name="pass" ColumnName="pass" />
+          <ScalarProperty Name="EmployeeBio" ColumnName="EmployeeBio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Projects">
+      <EntityTypeMapping TypeName="MarkatoModel.Project">
+        <MappingFragment StoreEntitySet="Projects">
+          <ScalarProperty Name="uploadDate" ColumnName="uploadDate" />
+          <ScalarProperty Name="projectID" ColumnName="projectID" />
+          <ScalarProperty Name="projectName" ColumnName="projectName" />
+          <ScalarProperty Name="projectDesc" ColumnName="projectDesc" />
+          <ScalarProperty Name="projectOwnerID" ColumnName="projectOwnerID" />
+          <ScalarProperty Name="projectMDID" ColumnName="projectMDID" />
+          <ScalarProperty Name="projectPrice" ColumnName="projectPrice" />
+          <ScalarProperty Name="projectStatues" ColumnName="projectStatues" />
+          <ScalarProperty Name="ProjectPic" ColumnName="ProjectPic" />
+          <ScalarProperty Name="ProjectStart" ColumnName="ProjectStart" />
+          <ScalarProperty Name="ProjectEnd" ColumnName="ProjectEnd" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectTeamHistories">
+      <EntityTypeMapping TypeName="MarkatoModel.ProjectTeamHistory">
+        <MappingFragment StoreEntitySet="ProjectTeamHistory">
+          <ScalarProperty Name="Req" ColumnName="Req" />
+          <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+          <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Requests">
+      <EntityTypeMapping TypeName="MarkatoModel.Request">
+        <MappingFragment StoreEntitySet="Requests">
+          <ScalarProperty Name="sr" ColumnName="sr" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="projectID" ColumnName="projectID" />
+          <ScalarProperty Name="employeeID" ColumnName="employeeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teams">
+      <EntityTypeMapping TypeName="MarkatoModel.Team">
+        <MappingFragment StoreEntitySet="Teams">
+          <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+          <ScalarProperty Name="TeamMDID" ColumnName="TeamMDID" />
+          <ScalarProperty Name="TeamLeaderID" ColumnName="TeamLeaderID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JTitles">
+      <EntityTypeMapping TypeName="MarkatoModel.JTitle">
+        <MappingFragment StoreEntitySet="JTitle">
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="typeID" ColumnName="typeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FeedBacks">
+      <EntityTypeMapping TypeName="MarkatoModel.FeedBack">
+        <MappingFragment StoreEntitySet="FeedBack">
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="FeedBack1" ColumnName="FeedBack" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="MTID" ColumnName="MTID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

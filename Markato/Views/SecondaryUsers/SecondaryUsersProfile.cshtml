@@ -1,0 +1,266 @@
+﻿@using Markato.Models;
+@model ProjectsInfo
+@{
+    ViewBag.Title = "SecondaryUsersProfile";
+    Layout = "~/Views/Shared/SecondaryUsersLayout.cshtml";
+    var cls = "";
+    Boolean emp = true;
+    var CurrentEmp = new Employee();
+    var CurrentCustomer = new Customer();
+    
+    if (Session["JID"] != null) {
+        if (((int)Session["JID"] == 4))
+        {
+
+            cls = "MTAccProject";
+            CurrentEmp = (Employee)Session["emp"];
+        }
+    }
+    else
+    {
+        emp = false;
+        CurrentCustomer = (Customer)Session["Customer"];
+    }
+
+    var projects = Model.projects;
+    var Teams = Model.Teams;
+    var req = Model.Prequests;
+    var pnum = 0;
+
+
+
+
+
+}
+<div class="container row col-lg-12">
+    <div class="jumbotron jumbotron-fluid col-lg-4" id="About">
+        <div class="container row" style="padding-top:40px;">
+            @if (emp)
+            {
+
+             <div class="col-3"></div>
+             <div class="col-sm-8">
+                 <div class=" col-sm-12">
+                     <img src="@CurrentEmp.EmployeePhoto" class="pp" />
+                 </div>
+                 <h1 class="display-4 ">@CurrentEmp.EmployeeFName</h1>
+                 <p class="lead">@CurrentEmp.EmployeeBio</p>
+             </div>
+            }
+            else
+            {
+                    <div class=" col-sm-4">
+                        <img src=@CurrentCustomer.CustomerPhoto class="pp" />
+                    </div>
+                    <h1 class="display-4">@CurrentCustomer.CustomerFName</h1>   
+            }
+        </div>
+    </div>
+    <div class="col-lg-8">
+        @if (emp)
+        {
+            <div class="container" id="SD">
+                <h3 style="text-align:center">Statistical Diagram</h3>
+                <hr class="col-sm-6" />
+                <div class="stat col-lg-12">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        }
+        else
+        {
+            Html.RenderPartial("ProjectForm", CurrentCustomer.CustomerID);
+        }
+        
+
+
+
+        @if (emp)
+        {
+            <div class="container" id="PR">
+                <h3 style="text-align:center">Project Requests</h3>
+                <hr class="col-sm-6" />
+
+                <div class="card-colum col-12 ProjectRequests">
+                @if (Model.Rprojects.Count() > 0 )
+                {
+                    
+                        foreach (var p in Model.Rprojects)
+                        {
+
+                            <div class="card col-sm-4 product-card pr" id="@p.projectID">
+                                <img class="card-img-top product-img" src="@p.ProjectPic" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title Product-name">@p.projectName</h5>
+                                    <p class="card-text Product-desc">@p.projectDesc</p>
+                                    @if (p.Teams.FirstOrDefault() != null)
+                                    {
+                                        <div class="row justify-content-md-center" id="@p.Teams.FirstOrDefault().TeamID">
+                                            <button type="submit" class="btn btn-primary col-sm-4  MTAccProject" id="@CurrentEmp.EmployeeID">Accept</button><!--product id required to be set when product retrieved from db-->
+                                            <button type="button" class="btn btn-danger col-sm-4  RejectProject" id="@CurrentEmp.EmployeeID">Reject</button>
+                                        </div>
+                                    }
+
+                                    <p class="card-text Custmer-name" style="margin-bottom:0"><small class="text-muted">@p.Customer.CustomerFName</small></p>
+
+                                    <p class="card-text Product-date"><small class="text-muted">@p.uploadDate</small></p>
+
+
+                                </div>
+                            </div>
+                        }
+                  
+                }
+                </div>
+            </div>
+        }
+        @if (!emp)
+        {
+            pnum = 0;
+            <div id="Pp" class="container">
+                <h3 style="text-align:center">Pendig Project</h3>
+                <hr class="col-sm-6" />
+                <div class="row col-12 PendingProjects">
+                    
+                        @foreach (var p in projects)
+                        {
+                            if (p.projectMDID == null)
+                            {
+                                <div class="card col-sm-6 product-card" id="@p.projectID">
+                                    <!--each projects' id MUST  be added here.And everything here will be retrieved from db dynamiclly-->
+                                    <img class="card-img-top product-img" src="@p.ProjectPic" alt="Card image cap">
+                                    <p class="card-text" style="margin-bottom:0px;"><small class="text-muted Date">@p.uploadDate</small></p>
+
+                                    <div class="card-body">
+                                        <h3 class="card-title Product-name">@p.projectName</h3>
+                                        <input type="text" class="card-title Editpname" style="display:none;" value="" />
+                                        <p class="card-text Product-desc">@p.projectDesc</p>
+                                        <textarea class="editDesc card-text" style="display:none;"></textarea>
+                                        <div class="cardRow col-lg-12" style="margin-bottom:5px">
+                                            @foreach (var md in p.Requests.ToList())
+                                            {
+                                                
+                                            <div class="col-sm-4 " id="@md.Employee.EmployeeID" style="margin-right:2px;">
+                                                <button class="btn btn-info btn-sm dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    @md.Employee.EmployeeFName
+                                                </button>
+                                                <form method="post" action="/MainDirectors/EmployeeProfile">
+                                                    <input type="number" value="@md.employeeID" name="EmpID" style="display:none" />
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <button type="submit" class="btn btn-outline-primary col-lg-12 profile">Profile</button>
+                                                        @if (md.sr == 1)
+                                                        {
+                                                            <button type="submit" class="btn btn-outline-success col-lg-12 CustomerAccept" id="@md.Employee.EmployeeID">Accept</button>
+                                                        }
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            }
+                                        </div>
+
+                                        <div class="col-lg-12 " id="@p.projectID">
+                                            <button type="button" class="btn btn-outline-warning btn-sm EditP" id="@p.projectID"><i class="fas fa-pen" style="margin-right:5px"></i>Edit Project</button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm DeleteProject" id="@p.projectID"><i class="fas fa-times" style="margin-right:5px"></i>Remove Project</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    
+                </div>
+            </div>
+        }
+
+        <div id="Current" class="container">
+            <h3 style="text-align:center">Assigned Project</h3>
+            <hr class="col-sm-6" />
+            <div class="row">
+                <div class="row col-12 AssignedProjects">
+                    @if (emp)
+                    {
+                        Html.RenderPartial("MTProjectCard", Model);
+                    }
+                    else
+                    {
+                        Html.RenderPartial("CustomerProjectCard", Model);
+                    }
+                   
+                </div>
+            </div>
+        </div>
+        <div class="container" id="history">
+            <h3 style="text-align:center">History</h3>
+            <hr class="col-sm-6" />
+            <div class="row">
+                <div class="card-colum Histories">
+                    @foreach (var p in projects)
+                    {
+                        if (p.projectStatues == "end")
+                        {
+                            <div class="card col-sm-6 product-card HistoryCardTemblate" id="@p.projectID">
+                                <!--each projects' id MUST  be added here.And everything here will be retrieved from db dynamiclly-->
+                                <img class="card-img-top product-img" src="@p.ProjectPic" alt="Card image cap">
+                                <p class="card-text" style="margin-bottom:0px;"><small class="text-muted Date">@p.ProjectStart</small></p>
+                                <p class="card-text" style="margin-bottom:0px;"><small class="text-muted CustmerName">@p.Customer.CustomerFName</small></p>
+                                <div class="card-body">
+                                    <h3 class="card-title Product-name">@p.projectName</h3>
+                                    <p class="card-text Product-desc">@p.projectDesc</p>
+                                    @if (@p.Employee != null)
+                                    {
+                                    <div class="row cardRow MD col-12">
+                                        <!--MTL id-->
+                                        <form method="post" action="/MainDirectors/EmployeeProfile">
+                                            <input type="number" value="@p.Employee.EmployeeID" name="EmpID" style="display:none" />
+                                            <button class="btn btn-secondary btn-md profile  MDname" type="submit">@p.Employee.EmployeeFName</button>
+                                        </form>
+                                    </div>
+                                    }
+                                    @if (p.Teams.FirstOrDefault() != null)
+                                    {
+                                        <div class="row cardRow ML col-12">
+                                            <form method="post" action="/MainDirectors/EmployeeProfile">
+                                                <input type="number" value="@p.Teams.FirstOrDefault().Employee.EmployeeID" name="EmpID" style="display:none" />
+
+                                                <button class="btn btn-secondary btn-md profile  MLname" type="submit" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@p.Teams.FirstOrDefault().Employee.EmployeeFName</button>
+                                            </form>
+                                        </div>
+                                    }
+                                    <div class="row col-lg-12 cardRow TeamMembers">
+                                        <!--this represents members in that project-->
+                                        @if (p.Teams.FirstOrDefault() != null)
+                                        {
+                                            foreach (var t in p.Teams.FirstOrDefault().ProjectTeamHistories.ToList())
+                                            {
+                                                <form method="post" action="/MainDirectors/EmployeeProfile">
+                                                    <input type="number" value="@t.Employee.EmployeeID" name="EmpID" style="display:none" />
+                                                    <button class="btn btn-secondary btn-sm col-sm-12 profile" type="submit">@t.Employee.EmployeeFName</button>
+                                                </form>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="row col-lg-12 SchedualDiv">
+                                        <form method="Post" class="SchedualForm" style="margin-top:10px;">
+                                            <div class="form-group row">
+                                                <div class="row col-sm-12">
+                                                    <label for="staticEmail" class="col-sm-3 col-form-label">Start</label>
+                                                    <input type="text" class="form-control StartDate col-sm-9" disabled value="@p.ProjectStart">
+                                                    <label for="staticEmail" class="col-sm-3 col-form-label">End</label>
+                                                    <input type="text" class="form-control EndDate col-sm-9" id="" placeholder="" disabled value="@p.ProjectEnd">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        pnum++;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

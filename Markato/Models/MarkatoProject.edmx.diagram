@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b8e93c52d63141c8a86a433f16e49d9d" Name="Diagram1" ZoomLevel="55">
+        <EntityTypeShape EntityType="MarkatoModel.Customer" Width="1.5" PointX="8.5" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarkatoModel.Employee" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarkatoModel.FeedBack" Width="1.5" PointX="3.125" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarkatoModel.JTitle" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarkatoModel.Project" Width="1.5" PointX="13.375" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarkatoModel.ProjectTeamHistory" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarkatoModel.Request" Width="1.5" PointX="8.125" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarkatoModel.Team" Width="1.5" PointX="13.5" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="MarkatoModel.PC" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.FK__Employees__Emplo__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.FK__Employees__JID__2739D489" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.FK__FeedBack__MTID__2A164134" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.FK__Requests__employ__08B54D69" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.FK_ProjectTeamHistory_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.PE" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.TL" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.TM" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.FK__FeedBack__Projec__2CF2ADDF" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.RP" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.TP" ManuallyRouted="false" />
+        <AssociationConnector Association="MarkatoModel.FK_ProjectTeamHistory_Teams" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

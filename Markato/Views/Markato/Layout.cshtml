@@ -1,0 +1,35 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+@using System.Web.Optimization;
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sufee Admin - HTML5 Admin Template</title>
+    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    @Styles.Render("~/Content/css")
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+</head>
+<body class="bg-dark">
+
+    <div class="sufee-login d-flex align-content-center flex-wrap">
+        <div class="container">
+            <div class="login-content">
+                <div class="login-logo">
+                    <a href="/">
+                        MARKATO
+                    </a>
+                </div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/Scripts/mjs")
+
+</body>
+</html>
+
+

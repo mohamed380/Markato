@@ -1,0 +1,75 @@
+﻿@model Markato.Models.Employee
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/MainDirectorsLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Employee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeFName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeFName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeLName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeLName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeMobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeMobile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeePhoto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeePhoto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeBio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeBio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee1.EmployeeFName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee1.EmployeeFName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EmployeeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

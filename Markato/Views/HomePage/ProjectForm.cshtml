@@ -1,0 +1,34 @@
+﻿@model int?
+<h3 style="text-align:center" id="addProject">Upload New Project</h3>
+<hr class="col-sm-6" />
+<div class="row Pform">
+    <div class="col-sm-4"></div>
+    <form class="col-md-8 justify-content-md-center CreatForm" id="@Model">
+        <div class="form-group row">
+            <label for="exampleFormControlInput1" class="col-md-3">Product Name</label>
+            <input type="text" name="Pname" class="form-control col-md-4" id="ProductName" placeholder="" required>
+        </div>
+        <div class="form-group row ">
+            <input type="file" id="productPic" />
+        </div>
+
+
+        <div class="form-group row">
+            <label for="exampleFormControlTextarea1" class="col-sm-3">Product Description</label>
+            <textarea class="form-control col-sm-4" id="ProductDesc" rows="2" name="PDesc"></textarea>
+        </div>
+        <!--
+            <div class="form-group row">
+                <label for="exampleFormControlInput1" class="col-sm-3">Markting Directory</label>
+                <select class="form-control form-control-md col-sm-4">
+                    <option>Small select</option>
+                </select>
+            </div>
+    -->
+        <div class="row justify-content-md-center col-sm-10">
+            <input type="button" style="text-align:center" class="btn btn-outline-secondary  col-md-3 CreateProject" value="Create!">
+        </div>
+
+    </form>
+</div>
+<hr class="col-sm-6" />

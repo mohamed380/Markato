@@ -1,0 +1,279 @@
+﻿@using Markato.Models
+@{
+
+    Boolean emp = true;
+    var CurrentEmp = new Employee();
+    var CurrentCustomer = new Customer();
+    if (Session["JID"] != null)
+    {
+        if (!((int)Session["JID"] == 2))
+        {
+            emp = false;
+        }
+        CurrentEmp = (Employee)Session["emp"];
+    }
+    else
+    {
+        emp = false;
+        CurrentCustomer = (Customer)Session["Customer"];
+    }
+    }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    @using System.Web.Optimization;
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/Homecss")
+
+</head>
+<body>
+
+    <!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+        <!-- Header-->
+        <header id="header" class="header">
+            <div class="header-menu">
+                <div class="col-sm-5">
+                    <div class="user-area dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @if (CurrentEmp != null)
+                            {
+                                <img class="user-avatar rounded-circle" src="@CurrentEmp.EmployeePhoto" alt="User Avatar">
+
+                            }
+                            else
+                            {
+                                <img class="user-avatar rounded-circle" src="@CurrentCustomer.CustomerPhoto" alt="User Avatar">
+                            }
+                        </a>
+                        <div class="user-menu dropdown-menu">
+                            @if (((Customer)Session["Customer"] == null) && ((int)Session["JID"] != 4))
+                            {
+                                <a class="nav-link" href="/MainDirectors/MainDirectorsPage"><i class="far fa-user"></i> My Profile</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link" href="/SecondaryUsers/SecondaryUsersProfile"><i class="far fa-user"></i> My Profile</a>
+    
+                            }
+                            <a class="nav-link" href="/Markato/Index"><i class="fas fa-power-off"></i> Logout</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-7 left-7">
+                    <div class="header-left">
+                       
+                      
+                    </div>
+                </div>
+
+
+            </div>
+        </header><!-- /header -->
+        <!-- Header-->
+
+        <div class="content mt-3 container">
+
+            @RenderBody()
+        </div>
+        <!-- .content -->
+    </div><!-- /#right-panel -->
+    <!-- Right Panel -->
+    <!-- Left Panel -->
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default" style="position:fixed;z-index:7;">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"><h3><b>MARKATO</b></h3></a>
+
+            </div>
+            <div id="main-menu" class="main-menu">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="index.html"> <i class="menu-icon fas fa-1x fa-tachometer-alt"></i>Dashboard </a>
+                    </li>
+                    <h3 class="menu-title">Control Projects</h3><!-- /.menu-title -->
+                    <li class="">   
+                        <!--here also u should who is using the system -->
+                        @if (Session["JID"] == null)
+                        {
+                            <a href="#addProject" class="fButton" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-plus-circle"></i>Add Project</a>
+                        }
+                        <!--<a href="#PendingProject" class="" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon far fa-edit"></i>Edit Project</a>-->
+                        <!--<a href="#PendingProject" class="" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon far fa-trash-alt"></i>Remove Project</a>-->
+                        <a href="#PendingProject" class="" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon far fa-pause-circle"></i>Pending Project</a>
+                        <!--<a href="#prevProject" class="" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-history"></i>Previous Project (History)</a>-->
+                    </li>
+                </ul>
+            </div>
+            <a href="#header" style="" aria-haspopup="true" aria-expanded="false"><i class="far fa-1x fa-arrow-alt-circle-up "></i></a>
+        </nav>
+    </aside><!-- /#left-panel -->
+    <!-- Left Panel -->
+
+    @Scripts.Render("~/Scripts/mjs")
+    <script>
+        (function ($) {
+            "use strict";
+
+            jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                backgroundColor: null,
+                color: '#ffffff',
+                hoverOpacity: 0.7,
+                selectedColor: '#1de9b6',
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: ['#1de9b6', '#03a9f5'],
+                normalizeFunction: 'polynomial'
+            });
+        })(jQuery);</script>
+    <script>
+        var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        var randomScalingFactor = function () {
+            return Math.round(Math.random() * 10);
+        };
+
+        var config1 = {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Number of Projects',
+                    backgroundColor: window.chartColors.red,
+                    borderColor: window.chartColors.red,
+                    data: [
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor()
+                    ],
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Your progress'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        },
+                        ticks: {
+                            min: 0,
+                            max: 10,
+
+                            // forces step size to be 5 units
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
+        };
+        var config2 = {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Number of Projects',
+                    backgroundColor: window.chartColors.red,
+                    borderColor: window.chartColors.red,
+                    data: [
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor(),
+                        randomScalingFactor()
+                    ],
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Your progress'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        },
+                        ticks: {
+                            min: 0,
+                            max: 10,
+
+                            // forces step size to be 5 units
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
+        };
+        window.onload = function () {
+            var ctx0 = document.getElementById('canvas0').getContext('2d');
+            window.myLine = new Chart(ctx0, config1);
+            var ctx1 = document.getElementById('canvas1').getContext('2d');
+            window.myLine = new Chart(ctx1, config2);
+        };
+
+
+
+
+
+
+    </script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

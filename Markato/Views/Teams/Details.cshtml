@@ -1,0 +1,43 @@
+﻿@model Markato.Models.Team
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Team</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.EmployeeFName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.EmployeeFName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee1.EmployeeFName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee1.EmployeeFName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.projectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.projectName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TeamID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

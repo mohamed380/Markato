@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Markato.Models.Project>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.projectName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectStatues)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.CustomerFName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employee.EmployeeFName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectDesc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectStatues)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.CustomerFName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.EmployeeFName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.projectID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.projectID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.projectID })
+        </td>
+    </tr>
+}
+
+</table>
